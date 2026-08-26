@@ -20,6 +20,11 @@ def pdf_scan():
         if file.is_file() and file.suffix.lower() == ".pdf":
             print(file.name)
 
+def image_scan():
+    for file in p.iterdir():
+        if file.is_file() and file.suffix.lower() == ".jpeg" or file.suffix.lower() == ".png" or file.suffix.lower() == ".jpg":
+            print(file.name)
+
 def user_search():
     search_term = input("\nEnter the keyword to search for: ").lower()
     print(f"\nSearching for '{search_term}'...\n")
@@ -41,6 +46,7 @@ print("====== Downloads ======\n")
 prompt_text = """Type "dir" to scan the Downloads folder
 Type "files" to scan all the files in the Downloads folder
 Type "pdf" to scan for pdf files
+Type "image" to scan for images
 Type "search" to search subdirs, files or pdfs in the download folder
 > """
 
@@ -54,12 +60,17 @@ elif scan in ["files", "file"]:
     print("\nScanning the Downloads folder for files...\n")
     download_file_scan()
 
+
 elif scan == "pdf":
     print("\nScanning the Downloads folder for PDFs...\n")
     pdf_scan()
+
+elif scan == "image" or scan == "images" or scan == "photos" :
+    print("\nScanning the Downloads folder for Images...\n")
+    image_scan()
 
 elif scan == "search":
     user_search()
 
 else:
-    print("\nInvalid input. Please run the script again and choose a valid option.")
+    print("\nInvalid input. Please run the script again and choose a valid option.\n")
