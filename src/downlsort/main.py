@@ -3,13 +3,14 @@ from scanner import (
     download_file_scan,
     image_scan,
     pdf_scan,
-    user_search,
+    user_search, docs_scan
 )
 
 PROMPT = """Type "dir" to scan the Downloads folder
 Type "files" to scan all the files in the Downloads folder
 Type "pdf" to scan for pdf files
 Type "image" to scan for images
+Type "docs" to scan for documents file
 Type "search" to search subdirs, files or pdfs in the download folder
 Type "quit" to exit
 >> """
@@ -30,6 +31,10 @@ while True:
     elif choice == "pdf":
         print("\nScanning the Downloads folder for PDFs...\n")
         pdf_scan()
+
+    elif choice in ["doc", "docs", "documents", "document"]:
+        print("\nScanning the Downloads folder for Documents...\n")
+        docs_scan()
 
 
     elif choice in ["image", "images", "photos"]:

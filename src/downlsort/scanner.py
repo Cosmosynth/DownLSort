@@ -4,7 +4,7 @@ from pathlib import Path
 
 downloads = Path.home() / "Downloads"
 IMAGE_TYPES = {".jpg", ".jpeg", ".png"}
-
+DOC_TYPES = {".pdf", ".docx", ".doc", ".odt", ".rtf", ".pages", ".txt", ".epub"}
 
 def download_dir_scan():
     for item in downloads.iterdir():
@@ -23,11 +23,17 @@ def pdf_scan():
         if item.is_file() and item.suffix.lower() == ".pdf":
             print(item.name)
 
-
 def image_scan():
     for item in downloads.iterdir():
         if item.is_file() and item.suffix.lower() in IMAGE_TYPES:
             print(item.name)
+
+
+def docs_scan():
+    for item in downloads.iterdir():
+        if item.is_file() and item.suffix.lower() in DOC_TYPES:
+            print(item.name)
+
 
 
 def user_search():
