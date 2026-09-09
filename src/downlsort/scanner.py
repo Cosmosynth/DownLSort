@@ -6,6 +6,11 @@ downloads = Path.home() / "Downloads"
 IMAGE_TYPES = {".jpg", ".jpeg", ".png"}
 DOC_TYPES = {".pdf", ".docx", ".doc", ".odt", ".rtf", ".pages", ".txt", ".epub"}
 
+def file_type_scan():
+    for file in downloads.iterdir():
+        if file.is_file():
+            print(file.suffix)
+
 def download_dir_scan():
     for item in downloads.iterdir():
         if item.is_dir():
@@ -49,3 +54,5 @@ def user_search():
 
     if not found:
         print("No matching files or directories found.")
+
+file_type_scan()
