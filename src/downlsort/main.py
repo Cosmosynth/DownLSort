@@ -1,53 +1,37 @@
-from scanner import (
-    download_dir_scan,
-    download_file_scan,
-    image_scan,
-    pdf_scan,
-    user_search, docs_scan
-)
+"""DownLSort command-line entry point."""
 
-PROMPT = """Type "dir" to scan the Downloads folder
-Type "files" to scan all the files in the Downloads folder
-Type "pdf" to scan for pdf files
-Type "image" to scan for images
-Type "docs" to scan for documents file
-Type "search" to search subdirs, files or pdfs in the download folder
-Type "quit" to exit
->> """
+from __future__ import annotations
 
-while True:
-    print("====== Downloads ======\n")
-    choice = input(PROMPT).strip().lower()
+import argparse
+from pathlib import Path
 
-    if choice == "dir":
-        print("\nScanning the Downloads folder for directories...\n")
-        download_dir_scan()
+from . import __version__
+from .app import App
+from .scanner import DEFAULT_FOLDER
 
 
-    elif choice in ["files", "file"]:
-        print("\nScanning the Downloads folder for files...\n")
-        download_file_scan()
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="downlsort",
+        description="Organize a cluttered folder through a clean GUI.",
+    )
+    parser.add_argument(
+        "--path",
+        type=Path,
+        default=DEFAULT_FOLDER,
+        help=f"Folder to organize (default: {DEFAULT_FOLDER})",
+    )
+    parser.add_argument(
+        "--version", action="version", version=f"%(prog)s {__version__}"
+    )
+    return parser
 
-    elif choice == "pdf":
-        print("\nScanning the Downloads folder for PDFs...\n")
-        pdf_scan()
 
-    elif choice in ["doc", "docs", "documents", "document"]:
-        print("\nScanning the Downloads folder for Documents...\n")
-        docs_scan()
+def main(argv: list[str] | None = None) -> None:
+    args = build_parser().parse_args(argv)
+    app = App(folder=args.path)
+    app.mainloop()
 
 
-    elif choice in ["image", "images", "photos"]:
-        print("\nScanning the Downloads folder for Images...\n")
-        image_scan()
-
-
-    elif choice == "search":
-        user_search()
-
-        
-    elif choice in ["quit", "exit", "q"]:
-        print("\nGoodbye.")
-        break
-    else:
-        print("\nInvalid input. Please choose a valid option.\n")
+if __name__ == "__main__":
+    main()
