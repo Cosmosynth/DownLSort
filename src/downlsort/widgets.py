@@ -10,7 +10,7 @@ CARD_BG = "#ADADAD"
 ICON_BG = "#D9D9D9"
 ICON_FG = "#6E6E6E"
 CHIP_BG = "#ADADAD"
-CHIP_ACTIVE_BG = "#5A5A5A"
+CHIP_ACTIVE_BG = "#212529"
 
 
 def truncate(text: str, limit: int = 24) -> str:

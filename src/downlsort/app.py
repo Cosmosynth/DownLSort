@@ -238,7 +238,7 @@ class App(ctk.CTk):
         if not visible:
             ctk.CTkLabel(
                 self.grid_panel,
-                text="Nothing here — all organized 🎉" if not self.items
+                text="Nothing here — all organized" if not self.items
                 else f"No {self.active_filter.lower()} files",
                 text_color="gray45", font=ctk.CTkFont(size=14),
             ).pack(pady=40)
