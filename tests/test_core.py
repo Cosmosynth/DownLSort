@@ -203,3 +203,17 @@ def test_full_sort_unsort_roundtrip(tmp_path: Path):
         "doc.pdf",
         "pic.png",
     ]
+
+
+def test_window_icon_asset_ships_with_package():
+    """The logo must be importable - the window icon depends on it."""
+    from importlib.resources import files
+
+    png = files("downlsort") / "assets" / "downlsort-logo.png"
+    assert png.is_file()
+    assert png.read_bytes().startswith(b"\x89PNG")
+
+    # The EXE icon is baked in at build time from this file.
+    ico = files("downlsort") / "assets" / "downlsort-logo.ico"
+    assert ico.is_file()
+    assert ico.read_bytes()[:4] == b"\x00\x00\x01\x00"

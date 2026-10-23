@@ -5,9 +5,14 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from . import __version__
-from .app import App
-from .scanner import DEFAULT_FOLDER
+try:
+    from . import __version__
+    from .app import App
+    from .scanner import DEFAULT_FOLDER
+except ImportError:
+    from downlsort import __version__
+    from downlsort.app import App
+    from downlsort.scanner import DEFAULT_FOLDER
 
 
 def build_parser() -> argparse.ArgumentParser:

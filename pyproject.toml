@@ -14,13 +14,16 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8"]
+dev = ["pytest>=8", "pyinstaller>=6", "pillow>=10"]
 
 [project.scripts]
 downlsort = "downlsort.main:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"downlsort" = ["assets/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import threading
 import tkinter as tk
 from tkinter import filedialog, messagebox
@@ -38,6 +39,7 @@ class App(ctk.CTk):
         self.geometry("1000x700")
         self.minsize(640, 480)
         self.configure(fg_color="white")
+        self._set_app_icon()
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(2, weight=1)
 
@@ -186,6 +188,41 @@ class App(ctk.CTk):
             self.after(0, lambda: done(result))
 
         threading.Thread(target=runner, daemon=True).start()
+
+    def _set_app_icon(self) -> None:
+        """Use the bundled logo as the window/taskbar icon."""
+        if os.name == "nt":
+            # Without an explicit AppUserModelID, Windows groups the window
+            # under python.exe and shows Python's icon on the taskbar.
+            try:
+                import ctypes
+
+                ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(
+                    "Cosmosynth.DownLSort"
+                )
+            except Exception:
+                pass
+
+        try:
+            from importlib.resources import files
+
+            assets = files("downlsort") / "assets"
+            if os.name == "nt":
+                # The multi-size ICO gives a crisp title-bar/taskbar icon.
+                try:
+                    self.iconbitmap(str(assets / "downlsort-logo.ico"))
+                    return
+                except Exception:
+                    pass  # Fall back to the PNG below.
+
+            icon = assets / "downlsort-logo.png"
+            # Keep a reference: Tkinter deletes the image when the Python
+            # object is garbage collected, which would drop the icon.
+            self._window_icon = tk.PhotoImage(file=str(icon))
+            self.iconphoto(True, self._window_icon)
+        except Exception:
+            # A missing/invalid icon must never stop the app from starting.
+            pass
 
     def _set_buttons_enabled(self, enabled: bool) -> None:
         state = "normal" if enabled else "disabled"
